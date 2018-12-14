@@ -1,9 +1,7 @@
 class Drone {
 	constructor() {
-		this.p = createVector(width/2, height/2);
-		this.v = createVector(0, 0);
-		// this.a = createVector(0, 0);
-
+		this.p = createVector(width/2 + 100, height/2);
+		this.v = createVector(0, - 100);
 		this.dir = PI;
 
 		this.frame_mass = 1;
@@ -14,16 +12,18 @@ class Drone {
 		this.rotor_dist = 10;
 		this.rotor_size = 9;
 		this.rotor_mass = 1; // Assume mass is uniform
-		this.rotor_thrust = 0.01; // Mass lifted with 1 rps
-		this.rotor_max_rps = 200;
+		this.rotor_thrust = 0.05; // Mass lifted with 1 rps
+		this.rotor_max_rps = 500;
 
 		// Front Left, Front Right
 		// Back Left, Back Right
 		// Front Left & Back Right - Clockwise
 		// Front Right & Back Left - Anticlockwise
-		this.rotor_rps = [100, 125, 150, 125];
+		this.rotor_rps = [0, 0, 0, 0];
 
 		this.total_mass = 4 * this.rotor_mass + this.frame_mass;
+
+		this.control(1, 3 * PI / 2, 0.01);
 	}
 
 	update(drones, delta) {
@@ -38,18 +38,33 @@ class Drone {
 
 		// Currently does not take into account the tilt of the drone
 		let net_force = createVector(
-			- this.rotor_rps[0] - this.rotor_rps[1]
-			+ this.rotor_rps[2] + this.rotor_rps[3],
-			- this.rotor_rps[0] + this.rotor_rps[1]
-			- this.rotor_rps[2] + this.rotor_rps[3],
-		);
+			- this.rotor_rps[0] - this.rotor_rps[1]  // Front
+			+ this.rotor_rps[2] + this.rotor_rps[3], // Back
+			+ this.rotor_rps[0] - this.rotor_rps[1]  // Front
+			+ this.rotor_rps[2] - this.rotor_rps[3], // Back
+		); // Left                Right
 
 		net_force.mult(this.rotor_thrust);
 		net_force.rotate(this.dir);
-		net_force.add(p5.Vector.mult(this.v, this.drag));
+		net_force.add(p5.Vector.mult(this.v, this.drag)); // Air Resistance
 
 		this.v.add(p5.Vector.mult(net_force, delta / this.total_mass));
 		this.dir += 2 * PI * delta * net_rps * this.rotor_thrust / this.total_mass;
+	}
+
+	// r is the desired speed (between 0 and 1)
+	// theta is the angle to travel at
+	// rps is the desired rotations per second of the drone (+ve for acw, -ve for cw)
+	control(r, theta, rps) {
+		let upwards = this.total_mass / this.rotor_thrust;
+		let rc = r * cos(theta) / this.rotor_thrust;
+		let rs = r * sin(theta) / this.rotor_thrust;
+		this.rotor_rps = [
+			(upwards - rc + rs + rps) / 4,
+			(upwards - rc - rs - rps) / 4,
+			(upwards + rc + rs - rps) / 4,
+			(upwards + rc - rs + rps) / 4
+		];
 	}
 
 	draw() {
