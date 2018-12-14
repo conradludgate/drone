@@ -1,7 +1,7 @@
 class Drone {
 	constructor() {
 		this.p = createVector(width/2 + 100, height/2);
-		this.v = createVector(0, 0)	;
+		this.v = createVector(0, 0);
 		this.dir = PI;
 
 		this.frame_mass = 1;
@@ -23,7 +23,8 @@ class Drone {
 
 		this.total_mass = 4 * this.rotor_mass + this.frame_mass;
 
-		this.control(100, 3 * PI / 2, 0.01);
+		// this.control(100, 3 * PI / 2, 0.01);
+		this.control(0, 0, 0); // Should be stationary
 
 		this.debug = false;
 	}
@@ -56,7 +57,7 @@ class Drone {
 		}
 
 		this.v.add(p5.Vector.mult(net_force, delta / this.total_mass));
-		this.dir += 2 * PI * delta * net_rps;
+		this.dir -= 2 * PI * delta * net_rps;
 	}
 
 	// r is the desired speed
@@ -70,10 +71,10 @@ class Drone {
 		let rc = r * cos(theta) / this.rotor_thrust;
 		let rs = r * sin(theta) / this.rotor_thrust;
 		this.rotor_rps = [
-			(upwards + rc + rs - rps) / 4,
-			(upwards + rc - rs + rps) / 4,
 			(upwards - rc + rs + rps) / 4,
-			(upwards - rc - rs - rps) / 4
+			(upwards - rc - rs - rps) / 4,
+			(upwards + rc + rs - rps) / 4,
+			(upwards + rc - rs + rps) / 4
 		];
 	}
 
