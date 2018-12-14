@@ -1,8 +1,11 @@
 drones = []
+time = undefined
 
 function setup() {
 	createCanvas(600, 600);
 	drones.push(new Drone());
+
+	time = Date.now();
 }
 
 function draw() {
@@ -12,5 +15,13 @@ function draw() {
 	strokeWeight(2);
 	for (drone of drones) {
 		drone.draw();
+	}
+
+	let newtime = Date.now()
+	let delta = (newtime - time) / 1000;
+	time = newtime;
+
+	for (drone of drones) {
+		drone.update(drones, delta);
 	}
 }

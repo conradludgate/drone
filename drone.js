@@ -17,7 +17,7 @@ class Drone {
 		this.rotor_rpm = [0, 0, 0, 0];
 	}
 
-	update(delta) {
+	update(drones, delta) {
 		this.p.add(p5.Vector.mul(this.v, delta));
 		this.v.add(p5.Vector.mul(this.a, delta));
 
