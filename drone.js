@@ -1,7 +1,7 @@
 class Drone {
 	constructor() {
 		this.p = createVector(width/2 + 100, height/2);
-		this.v = createVector(0, - 100);
+		this.v = createVector(0, 0);
 		this.dir = PI;
 
 		this.frame_mass = 1;
