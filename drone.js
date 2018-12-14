@@ -4,7 +4,7 @@ class Drone {
 		this.orbit_o = createVector(width/2, height/2);
 
 		this.p = this.orbit_o; this.p.x += this.orbit_r;
-		this.v = createVector(0, this.orbit_r);
+		this.v = createVector(0, -this.orbit_r);
 		this.a = createVector(-this.orbit_r, 0);
 
 		this.dir = PI;

@@ -13,6 +13,7 @@ function draw() {
 
 	stroke(255);
 	strokeWeight(2);
+	ellipse(width/2, height/2, 5);
 	for (drone of drones) {
 		drone.draw();
 	}
