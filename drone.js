@@ -1,37 +1,55 @@
 class Drone {
 	constructor() {
-		this.orbit_r = 100;
-		this.orbit_o = createVector(width/2, height/2);
-
-		this.p = createVector(this.orbit_r, 0);
-		this.p.add(this.orbit_o);
-		
-		this.v = createVector(0, -this.orbit_r);
-		this.a = createVector(-this.orbit_r, 0);
+		this.p = createVector(width/2, height/2);
+		this.v = createVector(0, 0);
+		// this.a = createVector(0, 0);
 
 		this.dir = PI;
 
 		this.frame_mass = 1;
+		this.drag = 0.25;
 
 		// Drones have 4 rotors
 		// All equidistant from the center of mass for simplicity
 		this.rotor_dist = 10;
 		this.rotor_size = 9;
 		this.rotor_mass = 1; // Assume mass is uniform
+		this.rotor_thrust = 0.01; // Mass lifted with 1 rps
+		this.rotor_max_rps = 200;
+
 		// Front Left, Front Right
 		// Back Left, Back Right
-		this.rotor_rpm = [0, 0, 0, 0];
+		// Left - Clockwise
+		// Right - Anticlockwise
+		this.rotor_rps = [100, 150, 150, 100];
+
+		this.total_mass = 4 * this.rotor_mass + this.frame_mass;
 	}
 
 	update(drones, delta) {
 		this.p.add(p5.Vector.mult(this.v, delta));
-		this.v.add(p5.Vector.mult(this.a, delta));
 
-		this.a = p5.Vector.sub(this.orbit_o, this.p);
-		this.dir = this.a.heading();
+		for (rotor of this.rotor_rps) {
+			rotor = max(min(rotor, this.rotor_max_rps), -this.rotor_max_rps);
+		}
 
-		// this.dir += delta * PI * 0.25;
-		// this.dir %= 2*PI
+		let net_rps = this.rotor_rps[0] - this.rotor_rps[1] +
+					  this.rotor_rps[2] - this.rotor_rps[3];
+
+		// Currently does not take into account the tilt of the drone
+		let net_force = createVector(
+			- this.rotor_rps[0] - this.rotor_rps[1]
+			+ this.rotor_rps[2] + this.rotor_rps[3],
+			- this.rotor_rps[0] + this.rotor_rps[1]
+			- this.rotor_rps[2] + this.rotor_rps[3],
+		);
+
+		net_force.mult(this.rotor_thrust);
+		net_force.rotate(this.dir);
+		net_force.add(p5.Vector.mult(this.v, this.drag));
+
+		this.v.add(p5.Vector.mult(net_force, delta / this.total_mass));
+		this.dir += 2 * PI * delta * net_rps / this.total_mass;
 	}
 
 	draw() {
