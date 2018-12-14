@@ -49,7 +49,7 @@ class Drone {
 
 		net_force.mult(this.rotor_thrust);
 		net_force.rotate(this.dir);
-		net_force.add(p5.Vector.mult(this.v, this.drag)); // Air Resistance
+		net_force.sub(p5.Vector.mult(this.v, this.drag)); // Air Resistance
 
 		if (this.debug) {
 			console.log(net_force);
