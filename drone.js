@@ -21,7 +21,7 @@ class Drone {
 		// Back Left, Back Right
 		// Front Left & Back Right - Clockwise
 		// Front Right & Back Left - Anticlockwise
-		this.rotor_rps = [100, 150, 150, 100];
+		this.rotor_rps = [100, 125, 150, 125];
 
 		this.total_mass = 4 * this.rotor_mass + this.frame_mass;
 	}
@@ -49,7 +49,7 @@ class Drone {
 		net_force.add(p5.Vector.mult(this.v, this.drag));
 
 		this.v.add(p5.Vector.mult(net_force, delta / this.total_mass));
-		this.dir += 2 * PI * delta * net_rps / this.total_mass;
+		this.dir += 2 * PI * delta * net_rps * this.rotor_thrust / this.total_mass;
 	}
 
 	draw() {
