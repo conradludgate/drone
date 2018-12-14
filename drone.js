@@ -1,7 +1,7 @@
 class Drone {
 	constructor() {
 		this.p = createVector(width/2 + 100, height/2);
-		this.v = createVector(0, 0);
+		this.v = createVector(0, 0)	;
 		this.dir = PI;
 
 		this.frame_mass = 1;
@@ -70,10 +70,10 @@ class Drone {
 		let rc = r * cos(theta) / this.rotor_thrust;
 		let rs = r * sin(theta) / this.rotor_thrust;
 		this.rotor_rps = [
-			(upwards - rc + rs - rps) / 4,
-			(upwards - rc - rs + rps) / 4,
-			(upwards + rc + rs + rps) / 4,
-			(upwards + rc - rs - rps) / 4
+			(upwards + rc + rs - rps) / 4,
+			(upwards + rc - rs + rps) / 4,
+			(upwards - rc + rs + rps) / 4,
+			(upwards - rc - rs - rps) / 4
 		];
 	}
 
