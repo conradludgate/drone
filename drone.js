@@ -48,8 +48,11 @@ class Drone {
 		net_force.rotate(this.dir);
 		net_force.add(p5.Vector.mult(this.v, this.drag)); // Air Resistance
 
+		console.log(net_force);
+		console.log(net_rps)
+
 		this.v.add(p5.Vector.mult(net_force, delta / this.total_mass));
-		this.dir += 2 * PI * delta * net_rps * this.rotor_thrust / this.total_mass;
+		this.dir += 2 * PI * delta * net_rps;
 	}
 
 	// r is the desired speed (between 0 and 1)
