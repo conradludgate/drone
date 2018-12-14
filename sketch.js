@@ -8,6 +8,8 @@ function setup() {
 function draw() {
 	background(0);
 
+	stroke(255);
+	strokeWeight(2);
 	for (drone of drones) {
 		drone.draw();
 	}

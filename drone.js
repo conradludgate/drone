@@ -25,8 +25,8 @@ class Drone {
 	}
 
 	draw() {
-		s = this.rotor_dist * sin(this.dir + PI/4);
-		c = this.rotor_dist * cos(this.dir + PI/4);
+		let s = this.rotor_dist * sin(this.dir + PI/4);
+		let c = this.rotor_dist * cos(this.dir + PI/4);
 
 		ellipse(this.p.x - c, this.p.y + s, this.rotor_size);
 		ellipse(this.p.x + c, this.p.y + s, this.rotor_size);
@@ -36,8 +36,8 @@ class Drone {
 		s = this.rotor_dist * sin(this.dir);
 		c = this.rotor_dist * cos(this.dir);
 
-		x = this.p.x + c;
-		y = this.p.y + s;
+		let x = this.p.x + c;
+		let y = this.p.y + s;
 
 		triangle(x, y, x - 0.1 * c - 0.1 * s, y - 0.1 * s + 0.1 * c, x - 0.1 * c + 0.1 * s, y - 0.1 * s - 0.1 * c);
 	}
