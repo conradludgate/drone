@@ -23,7 +23,7 @@ class Drone {
 
 		this.total_mass = 4 * this.rotor_mass + this.frame_mass;
 
-		this.control(1, 3 * PI / 2, 0.01);
+		this.control(100, 3 * PI / 2, 0.01);
 	}
 
 	update(drones, delta) {
@@ -55,11 +55,14 @@ class Drone {
 		this.dir += 2 * PI * delta * net_rps;
 	}
 
-	// r is the desired speed (between 0 and 1)
+	// r is the desired speed
 	// theta is the angle to travel at
 	// rps is the desired rotations per second of the drone (+ve for acw, -ve for cw)
 	control(r, theta, rps) {
 		let upwards = this.total_mass / this.rotor_thrust;
+
+		r = 10 * r / upwards / 3;
+
 		let rc = r * cos(theta) / this.rotor_thrust;
 		let rs = r * sin(theta) / this.rotor_thrust;
 		this.rotor_rps = [
