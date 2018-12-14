@@ -1,16 +1,16 @@
 class Drone {
 	constructor() {
-		this.p = createVector();
+		this.p = createVector(width/2, height/2);
 		this.v = createVector();
-		this.a = createVector(1, 1);
+		this.a = createVector(10, 10);
 		this.dir = 0;
 
 		this.frame_mass = 1;
 
 		// Drones have 4 rotors
 		// All equidistant from the center of mass for simplicity
-		this.rotor_dist = 5;
-		this.rotor_size = 4;
+		this.rotor_dist = 50;
+		this.rotor_size = 40;
 		this.rotor_mass = 1; // Assume mass is uniform
 		// Front Left, Front Right
 		// Back Left, Back Right
