@@ -18,10 +18,11 @@ class Drone {
 	}
 
 	update(drones, delta) {
-		this.p.add(p5.Vector.mul(this.v, delta));
-		this.v.add(p5.Vector.mul(this.a, delta));
+		this.p.add(p5.Vector.mult(this.v, delta));
+		this.v.add(p5.Vector.mult(this.a, delta));
 
 		this.dir += delta * PI;
+		this.dir %= 2*PI
 	}
 
 	draw() {
