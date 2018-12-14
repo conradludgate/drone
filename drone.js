@@ -19,8 +19,8 @@ class Drone {
 
 		// Front Left, Front Right
 		// Back Left, Back Right
-		// Left - Clockwise
-		// Right - Anticlockwise
+		// Front Left & Back Right - Clockwise
+		// Front Right & Back Left - Anticlockwise
 		this.rotor_rps = [100, 150, 150, 100];
 
 		this.total_mass = 4 * this.rotor_mass + this.frame_mass;
@@ -33,8 +33,8 @@ class Drone {
 		// 	rotor = max(min(rotor, this.rotor_max_rps), -this.rotor_max_rps);
 		// }
 
-		let net_rps = this.rotor_rps[0] - this.rotor_rps[1] +
-					  this.rotor_rps[2] - this.rotor_rps[3];
+		let net_rps = this.rotor_rps[0] - this.rotor_rps[1] -
+					  this.rotor_rps[2] + this.rotor_rps[3];
 
 		// Currently does not take into account the tilt of the drone
 		let net_force = createVector(
