@@ -1,16 +1,20 @@
 class Drone {
 	constructor() {
-		this.p = createVector(width/2, height/2);
-		this.v = createVector();
-		this.a = createVector(10, 10);
-		this.dir = 0;
+		this.orbit_r = 100;
+		this.orbit_o = createVector(width/2, height/2);
+
+		this.p = this.orbit_o; this.p.x += this.orbit_r;
+		this.v = createVector(0, this.orbit_r);
+		this.a = createVector(-this.orbit_r, 0);
+
+		this.dir = PI;
 
 		this.frame_mass = 1;
 
 		// Drones have 4 rotors
 		// All equidistant from the center of mass for simplicity
-		this.rotor_dist = 50;
-		this.rotor_size = 40;
+		this.rotor_dist = 10;
+		this.rotor_size = 9;
 		this.rotor_mass = 1; // Assume mass is uniform
 		// Front Left, Front Right
 		// Back Left, Back Right
@@ -21,18 +25,21 @@ class Drone {
 		this.p.add(p5.Vector.mult(this.v, delta));
 		this.v.add(p5.Vector.mult(this.a, delta));
 
-		this.dir += delta * PI;
-		this.dir %= 2*PI
+		this.a = p5.Vector.sub(this.orbit_o, this.p);
+		this.dir = this.a.heading();
+
+		// this.dir += delta * PI * 0.25;
+		// this.dir %= 2*PI
 	}
 
 	draw() {
 		let s = this.rotor_dist * sin(this.dir + PI/4);
 		let c = this.rotor_dist * cos(this.dir + PI/4);
 
-		stroke("red"); ellipse(this.p.x + s, this.p.y - c, this.rotor_size);
-		stroke("green"); ellipse(this.p.x + c, this.p.y + s, this.rotor_size);
-		stroke("blue"); ellipse(this.p.x - c, this.p.y - s, this.rotor_size);
-		stroke(255); ellipse(this.p.x - s, this.p.y + c, this.rotor_size);
+		ellipse(this.p.x + s, this.p.y - c, this.rotor_size);
+		ellipse(this.p.x + c, this.p.y + s, this.rotor_size);
+		ellipse(this.p.x - c, this.p.y - s, this.rotor_size);
+		ellipse(this.p.x - s, this.p.y + c, this.rotor_size);
 
 		s = this.rotor_dist * sin(this.dir);
 		c = this.rotor_dist * cos(this.dir);
