@@ -29,9 +29,9 @@ class Drone {
 	update(drones, delta) {
 		this.p.add(p5.Vector.mult(this.v, delta));
 
-		for (rotor of this.rotor_rps) {
-			rotor = max(min(rotor, this.rotor_max_rps), -this.rotor_max_rps);
-		}
+		// for (let rotor of this.rotor_rps) {
+		// 	rotor = max(min(rotor, this.rotor_max_rps), -this.rotor_max_rps);
+		// }
 
 		let net_rps = this.rotor_rps[0] - this.rotor_rps[1] +
 					  this.rotor_rps[2] - this.rotor_rps[3];
