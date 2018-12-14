@@ -29,10 +29,10 @@ class Drone {
 		let s = this.rotor_dist * sin(this.dir + PI/4);
 		let c = this.rotor_dist * cos(this.dir + PI/4);
 
-		stroke("red"); ellipse(this.p.x - c, this.p.y + s, this.rotor_size);
+		stroke("red"); ellipse(this.p.x + s, this.p.y - c, this.rotor_size);
 		stroke("green"); ellipse(this.p.x + c, this.p.y + s, this.rotor_size);
 		stroke("blue"); ellipse(this.p.x - c, this.p.y - s, this.rotor_size);
-		stroke(255); ellipse(this.p.x + c, this.p.y - s, this.rotor_size);
+		stroke(255); ellipse(this.p.x - s, this.p.y + c, this.rotor_size);
 
 		s = this.rotor_dist * sin(this.dir);
 		c = this.rotor_dist * cos(this.dir);
